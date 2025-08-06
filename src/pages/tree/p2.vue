@@ -1,5 +1,11 @@
 <template>
-  <a-tree v-model:selectedKeys="selectedKeys" :tree-data="treeData" show-icon default-expand-all >
+  <a-tree
+    class="custom-tree"
+    v-model:selectedKeys="selectedKeys"
+    :tree-data="treeData"
+    show-icon
+    default-expand-all
+  >
     <template #switcherIcon="{ switcherCls }"><down-outlined :class="switcherCls" /></template>
     <template #icon="{ key, data, expanded }">
       <FileIcon :fileType="data.fileType" :opend="expanded" />
@@ -23,18 +29,18 @@ const treeData = [
     fileType: 'FOLD',
     children: [
       {
-        title: 'leaf',
+        title: '111.txt',
         key: '0-0-0',
         fileType: 'txt',
       },
-       {
-        title: 'leaf',
+      {
+        title: '111.mp4',
         key: '0-0-1',
         fileType: 'mp4',
       },
       {
-        title: 'leaf',
-        key: '0-0-1',
+        title: '222.mo',
+        key: '0-0-2',
         fileType: 'mo',
       },
     ],
@@ -42,3 +48,19 @@ const treeData = [
 ]
 const selectedKeys = ref(['0-0-0'])
 </script>
+
+<style>
+/* 修改所有节点文字大小 */
+
+/* 针对特定节点 */
+.custom-tree .ant-tree-title {
+  font-size: 26px !important;
+  margin-left: 10px;
+}
+.custom-tree .ant-tree-treenode {
+  /* margin-bottom: 20px; */
+}
+.custom-tree .ant-tree-node-content-wrapper {
+  padding: 10px 5px;
+}
+</style>

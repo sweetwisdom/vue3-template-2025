@@ -30,18 +30,19 @@ function getFileIcon() {
       ? '#icon-wenjianleixing-suolvetu-wenjianjia'
       : '#icon-wenjianleixing-biaozhuntu-wenjianjia'
   } else {
-    return icons[props.fileType] ||'#icon-wenjianleixing-biaozhuntu-weizhiwenjian'
+    return icons[props.fileType] || '#icon-wenjianleixing-biaozhuntu-weizhiwenjian'
   }
 }
 </script>
 
 <style>
 .icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
+  width: 22px;
+  height: 22px;
+
   fill: currentColor;
   overflow: hidden;
   display: inline-block;
+  margin-right: 10px;
 }
 </style>
