@@ -2,6 +2,7 @@ import { App } from 'vue'
 import { Pinia } from 'pinia'
 import { Router } from 'vue-router'
 import UsePlugins from './use-plugins'
+import 'virtual:uno.css';
 export interface ModuleProp {
   app: App
   //   store: Pinia

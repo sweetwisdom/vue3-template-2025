@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import VueRouter from 'unplugin-vue-router/vite'
+import UnoCSS from 'unocss/vite'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd())
@@ -12,7 +13,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: parseInt(env.VITE_PORT) || 3000,
     },
-    plugins: [VueRouter(), vue(), vueJsx(), vueDevTools()],
+    plugins: [VueRouter(), vue(), vueJsx(), vueDevTools(),UnoCSS()],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
