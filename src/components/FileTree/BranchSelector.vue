@@ -28,18 +28,18 @@
       :disabled="!selectedBranch"
     >
       <a-select-option v-for="commit in commits" :key="commit.commitId" :value="commit.commitId">
-        <div >
+        <!-- <div >
           <span class="i-carbon-commit text-green-500"></span>
           <span class="text-sm font-medium">{{ commit.commitId.substring(0, 8) }}</span>
-        </div>
-        <!-- <div class="flex flex-col">
+        </div> -->
+        <div class="flex flex-col">
           <div class="flex items-center gap-2">
-            <span class="i-carbon-commit text-green-500"></span>
+            <span class="i-carbon-commit ">commit:</span>
             <span class="text-sm font-medium">{{ commit.commitId.substring(0, 8) }}</span>
           </div>
-          <div class="text-xs text-gray-500 mt-1">{{ commit.commitInfo }}</div>
+          <div class="text-xs text-blue-500 mt-1">{{ commit.commitInfo }}</div>
           <div class="text-xs text-gray-400">{{ formatDate(commit.createdAt) }}</div>
-        </div> -->
+        </div>
       </a-select-option>
     </a-select>
   </div>
@@ -101,6 +101,7 @@ const fetchCommits = async (branchName) => {
       commits.value = res.data
       if (commits.value.length > 0 && !selectedCommit.value) {
         selectedCommit.value = commits.value[0].commitId
+        handleCommitChange(selectedCommit.value)
       }
     }
   } catch (error) {

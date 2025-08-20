@@ -15,6 +15,7 @@
       :tree-data="treeData"
       :load-data="onLoadData"
       show-icon
+      v-model:expandedKeys="expandedKeys"
       :field-names="fieldNames"
       :loading="loading"
       @select="handleFileSelect"
@@ -46,6 +47,7 @@ const emit = defineEmits(['file-select'])
 
 const treeData = ref([])
 const selectedKeys = ref([])
+const expandedKeys = ref([])
 const loading = ref(false)
 
 const fieldNames = {
@@ -115,11 +117,24 @@ const refreshTree = () => {
   loadFileTree()
 }
 async function onLoadData(node) {
-  console.log('⚠️:[   return; ]🎈：', node.dataRef.path)
+  if (node.children.length !== 0) return
   await loadFileTree(node.dataRef.path)
 }
 // 处理文件选择
-const handleFileSelect = (selectedKeys, info) => {
+const handleFileSelect = async (selectedKeys, info) => {
+  const { type, path } = info.node.dataRef
+  console.log('⚠️:[ info.node ]🎈：', info.node)
+
+  if (type === 'tree') {
+    if (info.node.children.length === 0) {
+      await loadFileTree(path)
+      if (info.node.expanded === false) {
+        expandedKeys.value.push(...selectedKeys)
+      }
+    }
+
+    return
+  }
   const selectedNode = info.node
   if (selectedNode) {
     emit('file-select', {
