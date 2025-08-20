@@ -24,10 +24,13 @@ declare module 'vue-router/auto-routes' {
     '/ConfigForm/': RouteRecordInfo<'/ConfigForm/', '/ConfigForm', Record<never, never>, Record<never, never>>,
     '/ConfigForm/ConfigForm': RouteRecordInfo<'/ConfigForm/ConfigForm', '/ConfigForm/ConfigForm', Record<never, never>, Record<never, never>>,
     '/form-demo/': RouteRecordInfo<'/form-demo/', '/form-demo', Record<never, never>, Record<never, never>>,
+    '/form-demo/AddWork': RouteRecordInfo<'/form-demo/AddWork', '/form-demo/AddWork', Record<never, never>, Record<never, never>>,
     '/form-demo/formDemo': RouteRecordInfo<'/form-demo/formDemo', '/form-demo/formDemo', Record<never, never>, Record<never, never>>,
+    '/form-demo/select': RouteRecordInfo<'/form-demo/select', '/form-demo/select', Record<never, never>, Record<never, never>>,
     '/tree/': RouteRecordInfo<'/tree/', '/tree', Record<never, never>, Record<never, never>>,
     '/tree/FileIcon': RouteRecordInfo<'/tree/FileIcon', '/tree/FileIcon', Record<never, never>, Record<never, never>>,
     '/tree/fileSvg': RouteRecordInfo<'/tree/fileSvg', '/tree/fileSvg', Record<never, never>, Record<never, never>>,
+    '/tree/p1': RouteRecordInfo<'/tree/p1', '/tree/p1', Record<never, never>, Record<never, never>>,
     '/tree/p2': RouteRecordInfo<'/tree/p2', '/tree/p2', Record<never, never>, Record<never, never>>,
   }
 }

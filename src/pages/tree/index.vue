@@ -1,100 +1,82 @@
 <template>
-  <div>
-    <div style="margin-bottom: 16px">
-      showLine:
-      <a-switch v-model:checked="showLine" />
-      <br />
-      <br />
-      showIcon:
-      <a-switch v-model:checked="showIcon" />
-    </div>
-    <a-tree
-      :show-line="showLine"
-      :show-icon="showIcon"
-      :default-expanded-keys="['0-0-0']"
-      :tree-data="treeData"
-      @select="onSelect"
-    >
-      <template #title="{ dataRef }">
-        <template v-if="dataRef.key === '0-0-0-1'">
-          <div>multiple line title</div>
-          <div>multiple line title</div>
-        </template>
-        <template v-else>{{ dataRef.title }}</template>
-      </template>
-      <template #icon="{ key, selected }">
-        <smile-outlined /> 🤭{{ key }} {{ selected }}
-      </template>
-      <!-- <template #switcherIcon="{ dataRef, defaultIcon, data, expanded }">
+  <div class="w-vw bg-gray-50">
+    <div class="flex h-vh">
+      <!-- 左侧文件树 -->
+      <div class="w-80 bg-white border-r border-gray-200 flex-shrink-0">
+        <file-dir-tree 
+          :app-id="appId"
+          :selected-commit="selectedCommit"
+          @file-select="handleFileSelect"
+        />
+      </div>
+      
+      <!-- 中间内容区域 -->
+      <div class="flex-1 flex flex-col bg-white">
+        <!-- 分支选择器 -->
+        <branch-selector 
+          :app-id="appId"
+          @branch-change="handleBranchChange"
+          @commit-change="handleCommitChange"
+        />
         
-        <file-svg :treeNode="data" :data="data"  :expanded="expanded" />
-        <span v-if="dataRef.key === '0-0-2'"> 🤭 </span>
-
-        <component :is="defaultIcon" v-else />
-      </template> -->
-    </a-tree>
+        <!-- 文件预览区域 -->
+        <div class="flex-1 overflow-hidden">
+          <file-preview
+            :app-id="appId"
+            :current-file="currentFile"
+            :selected-commit="selectedCommit"
+            @file-change="handleFileChange"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-<script setup>
-import fileSvg from './fileSvg.vue'
-import { ref } from 'vue'
-const showLine = ref(true)
-const showIcon = ref(false)
-const treeData = ref([
-  {
-    title: 'parent 1',
-    key: '0-0',
-    fileType: 'FOLD',
-    children: [
-      {
-        title: 'parent 1-0',
-        key: '0-0-0',
-        fileType: 'FOLD',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-0-0',
-            name: '111.txt',
-            fileType: 'FILE',
-          },
-          {
-            key: '0-0-0-1',
-            name: '111.mo',
-            fileType: 'FILE',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-2',
-            name: '111.xls',
-            fileType: 'FILE',
-          },
-        ],
-      },
 
-      {
-        title: 'parent 1-2',
-        key: '0-0-2',
-        fileType: 'FOLD',
-        name: '00',
-        children: [
-          {
-            title: 'leaf 1',
-            key: '0-0-2-0',
-            name: '111.xls',
-            fileType: 'FILE',
-          },
-          {
-            title: 'leaf 2',
-            key: '0-0-2-1',
-            name: '111.xls',
-            fileType: 'FILE',
-          },
-        ],
-      },
-    ],
-  },
-])
-const onSelect = (selectedKeys, info) => {
-  console.log('selected', selectedKeys, info)
+<script setup>
+import { ref, onMounted } from 'vue'
+import FileDirTree from '@/components/FileTree/FileDirTree.vue'
+import BranchSelector from '@/components/FileTree/BranchSelector.vue'
+import FilePreview from '@/components/FileTree/FilePreview.vue'
+
+// 应用ID - 这里可以从路由参数或props获取
+const appId = ref('1952934473607139329') // 示例ID，实际应该从路由获取
+
+// 当前选中的提交
+const selectedCommit = ref('')
+
+// 当前选中的文件
+const currentFile = ref(null)
+
+// 处理分支切换
+const handleBranchChange = (branchName) => {
+  console.log('分支切换:', branchName)
+  // 分支切换时清空当前文件
+  currentFile.value = null
 }
+
+// 处理提交切换
+const handleCommitChange = (commitId) => {
+  console.log('提交切换:', commitId)
+  selectedCommit.value = commitId
+  // 提交切换时清空当前文件
+  currentFile.value = null
+}
+
+// 处理文件选择
+const handleFileSelect = (file) => {
+  console.log('文件选择:', file)
+  currentFile.value = file
+}
+
+// 处理文件变化
+const handleFileChange = (file) => {
+  console.log('文件变化:', file)
+}
+
+onMounted(() => {
+  // 组件挂载后的初始化逻辑
+  console.log('GitLab仓库文件视图组件已加载')
+})
 </script>
+

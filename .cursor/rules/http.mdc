@@ -1,0 +1,152 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Vue 项目 API 接口管理规范
+
+## 适用范围
+适用于所有基于 Vue2 / Vue3 的前端项目，接口调用统一通过 `@/utils/http` 进行。  
+接口文件存放在 `src/api/` 目录下，并在 `src/api/index.js` 统一导出。
+
+## 目标
+- 所有接口函数统一封装，集中管理  
+- 函数命名、参数传递方式统一  
+- 每个接口函数必须带有接口注释  
+- 支持模块化管理：不同业务的接口分文件（如 `user.js`、`workApp.js`）  
+- `api/index.js` 作为总出口，便于全局引入  
+
+---
+
+## 规则
+
+### 1. 文件结构
+```
+
+src/
+└─ api/
+├─ user.js         // 用户相关接口
+├─ workApp.js      // 应用相关接口
+└─ index.js        // 集中导出
+
+````
+
+### 2. 导入方式
+所有接口文件都必须导入 `http`：
+```js
+import http from '@/utils/http';
+````
+
+### 3. 接口函数命名
+
+* 采用 **小驼峰**，格式：`动作 + 资源`
+* 动作常用词：
+
+  * 获取：`get`
+  * 查询：`find`
+  * 新增：`add`
+  * 修改：`update`
+  * 删除：`delete`
+
+### 4. 注释规范
+
+接口函数必须写注释，包含：
+
+* 接口路径
+* 接口用途
+
+示例：
+
+```js
+// /user/list
+// 获取用户列表
+export function getUserList(params) {
+  return http({
+    method: 'get',
+    url: '/user/list',
+    params,
+  });
+}
+```
+
+### 5. 请求方式
+
+* GET 请求：参数放 `params`
+* POST/PUT/DELETE 请求：参数放 `data`
+
+示例：
+
+```js
+// /user/add
+// 新增用户
+export function addUser(data) {
+  return http({
+    method: 'post',
+    url: '/user/add',
+    data,
+  });
+}
+```
+
+### 6. 模块化导出
+
+每个模块文件定义接口函数，并通过 `index.js` 统一导出：
+
+`src/api/workApp.js`
+
+```js
+import http from '@/utils/http';
+
+// /workApp/findAppDependent?appId=1
+// 查询应用依赖
+export function findAppDependent(appId) {
+  return http({
+    method: 'get',
+    url: '/workApp/findAppDependent',
+    params: { appId },
+  });
+}
+
+// /workApp/addApp
+// 新增应用
+export function addApp(data) {
+  return http({
+    method: 'post',
+    url: '/workApp/addApp',
+    data,
+  });
+}
+```
+
+`src/api/index.js`
+
+```js
+export * from './user';
+export * from './workApp';
+```
+
+### 7. 使用方式
+
+在 Vue 组件或业务逻辑中使用：
+
+```js
+import { findAppDependent, addApp } from '@/api';
+
+findAppDependent(1).then(res => {
+  console.log(res);
+});
+
+addApp({ name: '新应用' }).then(res => {
+  console.log(res);
+});
+
+```
+
+

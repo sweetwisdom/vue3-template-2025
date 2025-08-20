@@ -12,8 +12,15 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       port: parseInt(env.VITE_PORT) || 3000,
+      proxy: {
+        '/api': {
+          target: 'http://192.168.89.191:58002', // 你的后端地址
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''), // 去掉 /api 前缀
+        },
+      },
     },
-    plugins: [VueRouter(), vue(), vueJsx(), vueDevTools(),UnoCSS()],
+    plugins: [VueRouter(), vue(), vueJsx(), vueDevTools(), UnoCSS()],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

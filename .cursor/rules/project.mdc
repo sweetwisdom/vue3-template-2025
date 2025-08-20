@@ -1,0 +1,12 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# 项目架构介绍
+
+主要：vue3（setupjs）+vite 
+css框架：UnoCSS+scsss
+
+ui:antdesign-vue

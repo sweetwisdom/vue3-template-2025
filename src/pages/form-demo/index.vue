@@ -7,19 +7,24 @@
     :loading="loading"
     @submit="handleSubmit"
   />
+  <add-work ref="addRef" />
+  <a-button @click="handleOpen"> 打开2 </a-button>
   <a-button @click="modalVisible = true"> 打开 </a-button>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import FormModal from '@/components/FormModal.vue'
+import AddWork from './AddWork.vue'
 
 const modalVisible = ref(false)
 const isEdit = ref(false)
 const loading = ref(false)
-
+const addRef = ref(null)
 const currentRecord = ref({}) // 编辑时赋值
-
+function handleOpen() {
+  addRef.value.open()
+}
 const formFields = [
   {
     field: 'username',
